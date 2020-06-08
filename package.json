@@ -1,0 +1,31 @@
+{
+  "name": "bitbar-sf-login",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "build:icon": "sh scripts/create-icon.sh",
+    "build:all": "npm run build:icon && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "sh scripts/install-plugin.sh"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "@rollup/plugin-babel": "^5.0.2",
+    "@rollup/plugin-commonjs": "^12.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "babel-plugin-preval": "^5.0.0",
+    "builtin-modules": "^3.1.0",
+    "dotenv": "^8.2.0",
+    "rollup": "^2.13.1",
+    "rollup-plugin-preserve-shebangs": "^0.2.0"
+  },
+  "dependencies": {
+    "bitbar": "^1.3.1"
+  }
+}
