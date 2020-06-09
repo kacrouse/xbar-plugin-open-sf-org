@@ -8,7 +8,9 @@
     "build:icon": "sh scripts/create-icon.sh",
     "build:all": "npm run build:icon && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "sh scripts/install-plugin.sh"
+    "install": "sh scripts/install-plugin.sh && npm run restart-bitbar",
+    "build-and-install": "npm run build && npm run install",
+    "restart-bitbar": "sh scripts/restart-bitbar.sh"
   },
   "keywords": [],
   "author": "",

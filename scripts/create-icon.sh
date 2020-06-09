@@ -1,3 +1,4 @@
+#!/bin/bash
 curl -s https://c1.sfdcstatic.com/content/dam/web/en_us/www/images/styleguide/Logos/Salesforce_Logo_RGB_V2.png \
   | magick - \
   -trim \ # crop transparent edges
