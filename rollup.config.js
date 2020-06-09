@@ -6,7 +6,7 @@ import babel from "@rollup/plugin-babel";
 import builtinModules from "builtin-modules";
 
 export default {
-  input: "index.js",
+  input: "src/index.js",
   output: {
     file: "dist/salesforce-login.1h.js",
     format: "cjs",
