@@ -33,7 +33,8 @@
     "rollup-plugin-preserve-shebangs": "^0.2.0"
   },
   "dependencies": {
-    "bitbar": "^1.3.1"
+    "bitbar": "^1.3.1",
+    "ini": "^1.3.5"
   },
   "ava": {
     "babel": true,

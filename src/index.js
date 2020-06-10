@@ -3,6 +3,7 @@ import bitbar from "bitbar";
 import templateImage from /* preval */ "./get-template-image";
 import { findExecutable } from "./util";
 import { getOrgs } from "./salesforce";
+import { loadConfig } from "./config";
 
 const sfdx = findExecutable("sfdx");
 if (!sfdx) {
@@ -16,6 +17,11 @@ try {
   console.error(e.message);
 }
 
+const { DEFAULT_PATH, paths } = loadConfig(process.env.HOME, {
+  DEFAULT_PATH: "/",
+  paths: {},
+});
+
 bitbar([
   {
     templateImage,
@@ -23,12 +29,14 @@ bitbar([
   },
   bitbar.separator,
   ...(orgs.length > 0
-    ? orgs.map((org) => ({
-        text: org.alias || org.username,
+    ? orgs.map(({ alias, username }) => ({
+        text: alias || username,
         bash: sfdx,
         param1: "force:org:open",
         param2: "--targetusername",
-        param3: org.username,
+        param3: username,
+        param4: "--path",
+        param5: paths[alias] || paths[username] || DEFAULT_PATH,
         terminal: false,
       }))
     : [
