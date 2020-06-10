@@ -6,7 +6,6 @@ import decache from "decache";
 test.beforeEach(() => {
   mockery.deregisterAll();
   decache("../src/index");
-  decache("../src/index");
 });
 test.serial("it prints the expected output", (t) => {
   const orgs = [
