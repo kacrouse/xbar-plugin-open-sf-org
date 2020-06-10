@@ -5,7 +5,16 @@ import { findExecutable } from "./util";
 import { getOrgs } from "./salesforce";
 
 const sfdx = findExecutable("sfdx");
-const orgs = getOrgs();
+if (!sfdx) {
+  console.error("Unable to find sfdx executable.");
+}
+
+let orgs = getOrgs();
+try {
+  orgs = getOrgs();
+} catch (e) {
+  console.error(e.message);
+}
 
 bitbar([
   {
