@@ -83,3 +83,30 @@ test.serial("it prints a message when there are no orgs", (t) => {
     "when no orgs are found, a message that indicates such should be printed"
   );
 });
+
+test.serial("errors while getting orgs list are written to stderr", (t) => {
+  t.plan(1);
+
+  const errorMessage = "uh oh";
+  mockery.enable({ warnOnUnregistered: false });
+  mockery.registerMock("./salesforce", {
+    getOrgs: () => {
+      throw Error(errorMessage);
+    },
+  });
+  mockery.registerMock("./util", { findExecutable: () => "path/to/sfdx" });
+  const stderr = startCapture(process.stderr);
+  const stdout = startCapture(process.stdout);
+
+  // start test
+  require("../src/index");
+  // stop test
+
+  stdout.stopCapture();
+  const stderrOutput = stderr.stopCapture();
+  t.is(
+    stderrOutput.trim(),
+    errorMessage,
+    "if an error occurs while getting the orgs list, the error message should be written to stderr"
+  );
+});

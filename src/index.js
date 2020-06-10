@@ -9,7 +9,7 @@ if (!sfdx) {
   console.error("Unable to find sfdx executable.");
 }
 
-let orgs = getOrgs();
+let orgs = [];
 try {
   orgs = getOrgs();
 } catch (e) {
