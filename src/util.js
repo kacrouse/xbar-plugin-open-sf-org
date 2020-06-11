@@ -23,4 +23,18 @@ const findExecutable = simpleCache((name) =>
 
 const runCommand = (command) => execSync(command).toString();
 
-export { findExecutable, runCommand };
+const sortBy = (items, identity) => {
+  return items.sort((value, other) => {
+    const valueId = identity(value);
+    const otherId = identity(other);
+    if (valueId > otherId) {
+      return 1;
+    }
+    if (valueId < otherId) {
+      return -1;
+    }
+    return 0;
+  });
+};
+
+export { findExecutable, runCommand, sortBy };

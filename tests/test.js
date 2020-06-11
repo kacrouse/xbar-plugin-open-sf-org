@@ -1,5 +1,6 @@
 import test from "ava";
 import { startCapture, parseParams, bitbarSpy } from "./helper/util";
+import { sortBy } from "../src/util";
 import mockery from "mockery";
 import decache from "decache";
 import { promises as fs } from "fs";
@@ -31,7 +32,10 @@ test.serial("it prints the expected output", (t) => {
   t.plan(4 + MOCK_ORGS.length * 3);
 
   mockery.registerMock("./salesforce", { getOrgs: () => MOCK_ORGS });
-  mockery.registerMock("./util", { findExecutable: () => "path/to/sfdx" });
+  mockery.registerMock("./util", {
+    sortBy,
+    findExecutable: () => "path/to/sfdx",
+  });
   const stdout = startCapture(process.stdout);
   const stderr = startCapture(process.stderr);
 
@@ -123,15 +127,18 @@ test.serial(
     const DEFAULT_PATH = "/path/to/somewhere";
     const testHome = (await tmp.dir()).path;
     process.env.HOME = testHome;
-    await fs.appendFile(path.resolve(testHome, ".bitbarrc"), [
-      "[open_salesforce_org]",
-      `DEFAULT_PATH=${DEFAULT_PATH}`,
-    ].join("\n"));
-    
+    await fs.appendFile(
+      path.resolve(testHome, ".bitbarrc"),
+      ["[open_salesforce_org]", `DEFAULT_PATH=${DEFAULT_PATH}`].join("\n")
+    );
+
     const spy = bitbarSpy();
     mockery.registerMock("bitbar", spy);
     mockery.registerMock("./salesforce", { getOrgs: () => MOCK_ORGS });
-    mockery.registerMock("./util", { findExecutable: () => "path/to/sfdx" });
+    mockery.registerMock("./util", {
+      sortBy,
+      findExecutable: () => "path/to/sfdx",
+    });
 
     // start test
     require("../src/index");
@@ -160,17 +167,23 @@ test.serial(
 
     const testHome = (await tmp.dir()).path;
     process.env.HOME = testHome;
-    await fs.appendFile(path.resolve(testHome, ".bitbarrc"), [
-      "[open_salesforce_org.paths]",
-      `${nonDefaultPathOrg.alias}=${orgPath}`,
-    ].join("\n"));
+    await fs.appendFile(
+      path.resolve(testHome, ".bitbarrc"),
+      [
+        "[open_salesforce_org.paths]",
+        `${nonDefaultPathOrg.alias}=${orgPath}`,
+      ].join("\n")
+    );
 
     const spy = bitbarSpy();
     mockery.registerMock("bitbar", spy);
     mockery.registerMock("./salesforce", {
       getOrgs: () => [nonDefaultPathOrg],
     });
-    mockery.registerMock("./util", { findExecutable: () => "path/to/sfdx" });
+    mockery.registerMock("./util", {
+      sortBy,
+      findExecutable: () => "path/to/sfdx",
+    });
 
     // start test
     require("../src/index");
@@ -193,17 +206,23 @@ test.serial(
 
     const testHome = (await tmp.dir()).path;
     process.env.HOME = testHome;
-    await fs.appendFile(path.resolve(testHome, ".bitbarrc"), [
-      "[open_salesforce_org.paths]",
-      `${nonDefaultPathOrg.username}=${orgPath}`,
-    ].join("\n"));
+    await fs.appendFile(
+      path.resolve(testHome, ".bitbarrc"),
+      [
+        "[open_salesforce_org.paths]",
+        `${nonDefaultPathOrg.username}=${orgPath}`,
+      ].join("\n")
+    );
 
     const spy = bitbarSpy();
     mockery.registerMock("bitbar", spy);
     mockery.registerMock("./salesforce", {
       getOrgs: () => [nonDefaultPathOrg],
     });
-    mockery.registerMock("./util", { findExecutable: () => "path/to/sfdx" });
+    mockery.registerMock("./util", {
+      sortBy,
+      findExecutable: () => "path/to/sfdx",
+    });
 
     // start test
     require("../src/index");
