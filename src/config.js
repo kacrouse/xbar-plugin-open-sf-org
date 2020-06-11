@@ -9,10 +9,17 @@ const loadConfig = (homePath, defaultConfig) => {
   } catch (e) {
     return defaultConfig;
   }
-  const config = parse(fs.readFileSync(configPath, { encoding: "utf8" }));
+
+  let config;
+  try {
+    config = parse(fs.readFileSync(configPath, { encoding: "utf8" }));
+  } catch (e) {
+    console.error(`Error reading .bitbarrc: ${e.message || "Unknown error"}`);
+  }
+
   return {
     ...defaultConfig,
-    ...config.salesforce_login,
+    ...config.open_salesforce_org,
   };
 };
 

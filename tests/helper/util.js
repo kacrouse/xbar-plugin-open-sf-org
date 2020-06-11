@@ -1,3 +1,5 @@
+import bitbar from "bitbar";
+
 /**
  * Capture a stream that cannot be read from by monkey-patching the `write`
  * method. Typically only necessary for a standard stream like `process.stdout`
@@ -46,4 +48,14 @@ const parseParams = (params) => {
   }, {});
 };
 
-export { startCapture, parseParams };
+const bitbarSpy = () => {
+  const calls = [];
+  const spy = (items, options) => {
+    calls.push({items, options});
+  }
+  spy.separator = bitbar.separator;
+  spy.calls = calls;
+  return spy;
+}
+
+export { startCapture, parseParams, bitbarSpy };

@@ -1,7 +1,10 @@
 import test from "ava";
-import { startCapture, parseParams } from "./helper/util";
+import { startCapture, parseParams, bitbarSpy } from "./helper/util";
 import mockery from "mockery";
 import decache from "decache";
+import { promises as fs } from "fs";
+import path from "path";
+import tmp from "tmp-promise";
 
 test.beforeEach(() => {
   mockery.deregisterAll();
@@ -109,3 +112,132 @@ test.serial("errors while getting orgs list are written to stderr", (t) => {
     "if an error occurs while getting the orgs list, the error message should be written to stderr"
   );
 });
+
+test.serial(
+  "if a default path is specified in the bitbarrc, it should be used as the path for all orgs",
+  async (t) => {
+    const DEFAULT_PATH = "/path/to/somewhere";
+    const bitbarrcContent = `[open_salesforce_org]\nDEFAULT_PATH=${DEFAULT_PATH}`;
+    const orgs = [
+      {
+        username: "nonscratchorg@example.com",
+        alias: "non-scratch-org",
+      },
+      {
+        username: "scratchorg@example.com",
+        alias: "scratch-org",
+      },
+    ];
+
+    t.plan(2 + orgs.length);
+
+    const spy = bitbarSpy();
+    const testHome = (await tmp.dir()).path;
+    process.env.HOME = testHome;
+    await fs.appendFile(path.resolve(testHome, ".bitbarrc"), bitbarrcContent);
+
+    mockery.enable({ warnOnUnregistered: false });
+    mockery.registerMock("./salesforce", { getOrgs: () => orgs });
+    mockery.registerMock("./util", { findExecutable: () => "path/to/sfdx" });
+    mockery.registerMock("bitbar", spy);
+
+    // start test
+    require("../src/index");
+    // stop test
+
+    mockery.disable();
+
+    t.is(spy.calls.length, 1, "bitbar should be called one time");
+    const [, , ...actualOrgs] = spy.calls[0].items;
+    t.is(
+      actualOrgs.length,
+      orgs.length,
+      "each org should be listed as an item"
+    );
+    actualOrgs.forEach((org) =>
+      t.is(org.param5, DEFAULT_PATH, "the path didn't match")
+    );
+  }
+);
+
+test.serial(
+  "if a path is specified by alias for a specific org in the bitbarrc, it should be used as the path for that org",
+  async (t) => {
+    const nonDefaultPathOrg = {
+      username: "nonscratchorg@example.com",
+      alias: "non-scratch-org",
+    };
+
+    const orgPath = "/path/to/somewhere";
+    const bitbarrcContent = [
+      "[open_salesforce_org.paths]",
+      `${nonDefaultPathOrg.alias}=${orgPath}`,
+    ].join("\n");
+
+    t.plan(3);
+
+    const spy = bitbarSpy();
+    const testHome = (await tmp.dir()).path;
+    process.env.HOME = testHome;
+    await fs.appendFile(path.resolve(testHome, ".bitbarrc"), bitbarrcContent);
+
+    mockery.enable({ warnOnUnregistered: false });
+    mockery.registerMock("./salesforce", {
+      getOrgs: () => [nonDefaultPathOrg],
+    });
+    mockery.registerMock("./util", { findExecutable: () => "path/to/sfdx" });
+    mockery.registerMock("bitbar", spy);
+
+    // start test
+    require("../src/index");
+    // stop test
+
+    mockery.disable();
+
+    t.is(spy.calls.length, 1, "bitbar should be called one time");
+    const [, , ...actualOrgs] = spy.calls[0].items;
+    t.is(actualOrgs.length, 1, "each org should be listed as an item");
+    t.is(actualOrgs[0].param5, orgPath, "the path didn't match");
+  }
+);
+
+test.serial(
+  "if a path is specified by username for a specific org in the bitbarrc, it should be used as the path for that org",
+  async (t) => {
+    const nonDefaultPathOrg = {
+      username: "nonscratchorg@example.com",
+      alias: "non-scratch-org",
+    };
+
+    const orgPath = "/path/to/somewhere";
+    const bitbarrcContent = [
+      "[open_salesforce_org.paths]",
+      `${nonDefaultPathOrg.username}=${orgPath}`,
+    ].join("\n");
+
+    t.plan(3);
+
+    const spy = bitbarSpy();
+    const testHome = (await tmp.dir()).path;
+    process.env.HOME = testHome;
+    await fs.appendFile(path.resolve(testHome, ".bitbarrc"), bitbarrcContent);
+
+    mockery.enable({ warnOnUnregistered: false });
+    mockery.registerMock("./salesforce", {
+      getOrgs: () => [nonDefaultPathOrg],
+    });
+    mockery.registerMock("./util", { findExecutable: () => "path/to/sfdx" });
+    mockery.registerMock("bitbar", spy);
+
+    // start test
+    require("../src/index");
+    // stop test
+
+    mockery.disable();
+
+    t.is(spy.calls.length, 1, "bitbar should be called one time");
+    const [, , ...actualOrgs] = spy.calls[0].items;
+    t.is(actualOrgs.length, 1, "each org should be listed as an item");
+    t.is(actualOrgs[0].param5, orgPath, "the path didn't match");
+  }
+);
