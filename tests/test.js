@@ -125,7 +125,7 @@ test.serial(
     process.env.HOME = testHome;
     await fs.appendFile(path.resolve(testHome, ".bitbarrc"), [
       "[open_salesforce_org]",
-      `DEFAULT_PATH=${orgPath}`,
+      `DEFAULT_PATH=${DEFAULT_PATH}`,
     ].join("\n"));
     
     const spy = bitbarSpy();
