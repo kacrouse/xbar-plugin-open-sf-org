@@ -1,8 +1,19 @@
 {
-  "name": "bitbar-sf-login",
+  "name": "bitbar-plugin-open-sf-org",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
+  "description": "A Bitbar plugin to open any Salesforce Org registered with the Salesforce CLI.",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kacrouse/bitbar-plugin-open-sf-org.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kacrouse/bitbar-plugin-open-sf-org/issues"
+  },
+  "homepage": "https://github.com/kacrouse/bitbar-plugin-open-sf-org#readme",
   "scripts": {
     "build": "rollup -c",
     "build:icon": "sh scripts/create-icon.sh",
@@ -13,7 +24,7 @@
     "restart-bitbar": "sh scripts/restart-bitbar.sh"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kyle Crouse",
   "license": "ISC",
   "devDependencies": {
     "@ava/babel": "^1.0.1",
@@ -41,5 +52,12 @@
     "require": [
       "@babel/register"
     ]
+  },
+  "bitbar": {
+    "title": "Open Salesforce Org",
+    "desc": "Open any Salesforce Org registered with the Salesforce CLI.",
+    "image": "",
+    "dependencies": "node,sfdx",
+    "authorGithub": "kacrouse"
   }
 }
