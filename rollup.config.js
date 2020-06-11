@@ -13,7 +13,7 @@ const render = (template, data) =>
 export default {
   input: "src/index.js",
   output: {
-    file: "dist/salesforce-login.1h.js",
+    file: "dist/open-salesforce-org.1h.js",
     format: "cjs",
   },
   plugins: [
@@ -32,7 +32,7 @@ export default {
     {
       name: "bitbar-metadata-banner",
       banner: render(
-        fs.readFileSync(path.resolve(__dirname, "bitbar-metadata.js"), {
+        fs.readFileSync(path.resolve(__dirname, "src/bitbar-metadata.js"), {
           encoding: "utf8",
         }),
         {
