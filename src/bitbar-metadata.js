@@ -12,15 +12,16 @@
  * <bitbar.dependencies>{{dependencies}}</bitbar.dependencies>
  * <bitbar.abouturl>{{abouturl}}</bitbar.abouturl>
  * 
- * The page an org opens to can be configured through the .bitbarrc file.
- * To set the page for all orgs, add the following:
+ * The page an org opens to can be configured through a `.bitbarrc` file in your home directory.
+ * To set the page for all orgs, add the following to the file:
  * 
  * [open_salesforce_org]
  * DEFAULT_PATH=/path/to/open/to
  * 
  * 
- * To specify the page for individual orgs, add an `open_salesforce_org.paths`
- * section, with a line for each org, like so:
+ * To set the page for individual orgs, add an `open_salesforce_org.paths` 
+ * section, with a line for each org. Orgs can be specified by alias or 
+ * username.
  * 
  * [open_salesforce_org.paths]
  * myOrg@example.com=/path/to/open/to
