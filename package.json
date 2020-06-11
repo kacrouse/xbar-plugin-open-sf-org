@@ -57,7 +57,7 @@
   "bitbar": {
     "title": "Open Salesforce Org",
     "desc": "Open any Salesforce Org registered with the Salesforce CLI.",
-    "image": "",
+    "image": "https://github.com/kacrouse/bitbar-plugin-open-sf-org/blob/master/assets/screenshot.png",
     "dependencies": "node,sfdx",
     "authorGithub": "kacrouse"
   }

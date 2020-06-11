@@ -27,7 +27,7 @@
  * myOtherOrgAlias=/other/path/to/open/to
  * 
  * 
- * The most specific configuration takes precedence, so if you set a 
- * DEFAULT_PATH and a value for an individual org, the value for the individual
- * org will be used.
+ * The most specific configuration takes precedence, so if `DEFAULT_PATH` is set 
+ * along with a value for an individual org, the value for the individual org 
+ * will be used.
  */
