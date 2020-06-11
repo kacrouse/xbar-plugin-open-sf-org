@@ -6,26 +6,31 @@ import { promises as fs } from "fs";
 import path from "path";
 import tmp from "tmp-promise";
 
+const MOCK_ORGS = [
+  {
+    username: "nonscratchorg@example.com",
+    alias: "non-scratch-org",
+  },
+  {
+    username: "scratchorg@example.com",
+    alias: "scratch-org",
+  },
+];
+
+test.before(() => {
+  mockery.enable({ warnOnUnregistered: false });
+});
 test.beforeEach(() => {
   mockery.deregisterAll();
   decache("../src/index");
 });
+test.after(() => {
+  mockery.disable();
+});
 test.serial("it prints the expected output", (t) => {
-  const orgs = [
-    {
-      username: "nonscratchorg@example.com",
-      alias: "non-scratch-org",
-    },
-    {
-      username: "scratchorg@example.com",
-      alias: "scratch-org",
-    },
-  ];
+  t.plan(4 + MOCK_ORGS.length * 3);
 
-  t.plan(4 + orgs.length * 3);
-
-  mockery.enable({ warnOnUnregistered: false });
-  mockery.registerMock("./salesforce", { getOrgs: () => orgs });
+  mockery.registerMock("./salesforce", { getOrgs: () => MOCK_ORGS });
   mockery.registerMock("./util", { findExecutable: () => "path/to/sfdx" });
   const stdout = startCapture(process.stdout);
   const stderr = startCapture(process.stderr);
@@ -33,8 +38,6 @@ test.serial("it prints the expected output", (t) => {
   // start test
   require("../src/index");
   // stop test
-
-  mockery.disable();
 
   const stderrOutput = stderr.stopCapture();
   t.is(stderrOutput, "", "nothing should have been output to stderr");
@@ -49,7 +52,7 @@ test.serial("it prints the expected output", (t) => {
     "The template image should be populated with the base64 encoded icon"
   );
 
-  orgs.forEach((org) => {
+  MOCK_ORGS.forEach((org) => {
     const orgLine = lines.find((line) => line.startsWith(org.alias));
     t.truthy(orgLine, "Each org should be printed as an item");
     const [text, params] = orgLine.split("|");
@@ -65,7 +68,6 @@ test.serial("it prints the expected output", (t) => {
 test.serial("it prints a message when there are no orgs", (t) => {
   t.plan(3);
 
-  mockery.enable({ warnOnUnregistered: false });
   mockery.registerMock("./salesforce", { getOrgs: () => [] });
   mockery.registerMock("./util", { findExecutable: () => "path/to/sfdx" });
   const stdout = startCapture(process.stdout);
@@ -90,7 +92,7 @@ test.serial("errors while getting orgs list are written to stderr", (t) => {
   t.plan(1);
 
   const errorMessage = "uh oh";
-  mockery.enable({ warnOnUnregistered: false });
+
   mockery.registerMock("./salesforce", {
     getOrgs: () => {
       throw Error(errorMessage);
@@ -116,42 +118,30 @@ test.serial("errors while getting orgs list are written to stderr", (t) => {
 test.serial(
   "if a default path is specified in the bitbarrc, it should be used as the path for all orgs",
   async (t) => {
+    t.plan(2 + MOCK_ORGS.length);
+
     const DEFAULT_PATH = "/path/to/somewhere";
-    const bitbarrcContent = `[open_salesforce_org]\nDEFAULT_PATH=${DEFAULT_PATH}`;
-    const orgs = [
-      {
-        username: "nonscratchorg@example.com",
-        alias: "non-scratch-org",
-      },
-      {
-        username: "scratchorg@example.com",
-        alias: "scratch-org",
-      },
-    ];
-
-    t.plan(2 + orgs.length);
-
-    const spy = bitbarSpy();
     const testHome = (await tmp.dir()).path;
     process.env.HOME = testHome;
-    await fs.appendFile(path.resolve(testHome, ".bitbarrc"), bitbarrcContent);
-
-    mockery.enable({ warnOnUnregistered: false });
-    mockery.registerMock("./salesforce", { getOrgs: () => orgs });
-    mockery.registerMock("./util", { findExecutable: () => "path/to/sfdx" });
+    await fs.appendFile(path.resolve(testHome, ".bitbarrc"), [
+      "[open_salesforce_org]",
+      `DEFAULT_PATH=${orgPath}`,
+    ].join("\n"));
+    
+    const spy = bitbarSpy();
     mockery.registerMock("bitbar", spy);
+    mockery.registerMock("./salesforce", { getOrgs: () => MOCK_ORGS });
+    mockery.registerMock("./util", { findExecutable: () => "path/to/sfdx" });
 
     // start test
     require("../src/index");
     // stop test
 
-    mockery.disable();
-
     t.is(spy.calls.length, 1, "bitbar should be called one time");
     const [, , ...actualOrgs] = spy.calls[0].items;
     t.is(
       actualOrgs.length,
-      orgs.length,
+      MOCK_ORGS.length,
       "each org should be listed as an item"
     );
     actualOrgs.forEach((org) =>
@@ -163,36 +153,28 @@ test.serial(
 test.serial(
   "if a path is specified by alias for a specific org in the bitbarrc, it should be used as the path for that org",
   async (t) => {
-    const nonDefaultPathOrg = {
-      username: "nonscratchorg@example.com",
-      alias: "non-scratch-org",
-    };
-
-    const orgPath = "/path/to/somewhere";
-    const bitbarrcContent = [
-      "[open_salesforce_org.paths]",
-      `${nonDefaultPathOrg.alias}=${orgPath}`,
-    ].join("\n");
-
     t.plan(3);
 
-    const spy = bitbarSpy();
+    const nonDefaultPathOrg = MOCK_ORGS[0];
+    const orgPath = "/path/to/somewhere";
+
     const testHome = (await tmp.dir()).path;
     process.env.HOME = testHome;
-    await fs.appendFile(path.resolve(testHome, ".bitbarrc"), bitbarrcContent);
+    await fs.appendFile(path.resolve(testHome, ".bitbarrc"), [
+      "[open_salesforce_org.paths]",
+      `${nonDefaultPathOrg.alias}=${orgPath}`,
+    ].join("\n"));
 
-    mockery.enable({ warnOnUnregistered: false });
+    const spy = bitbarSpy();
+    mockery.registerMock("bitbar", spy);
     mockery.registerMock("./salesforce", {
       getOrgs: () => [nonDefaultPathOrg],
     });
     mockery.registerMock("./util", { findExecutable: () => "path/to/sfdx" });
-    mockery.registerMock("bitbar", spy);
 
     // start test
     require("../src/index");
     // stop test
-
-    mockery.disable();
 
     t.is(spy.calls.length, 1, "bitbar should be called one time");
     const [, , ...actualOrgs] = spy.calls[0].items;
@@ -204,36 +186,28 @@ test.serial(
 test.serial(
   "if a path is specified by username for a specific org in the bitbarrc, it should be used as the path for that org",
   async (t) => {
-    const nonDefaultPathOrg = {
-      username: "nonscratchorg@example.com",
-      alias: "non-scratch-org",
-    };
-
-    const orgPath = "/path/to/somewhere";
-    const bitbarrcContent = [
-      "[open_salesforce_org.paths]",
-      `${nonDefaultPathOrg.username}=${orgPath}`,
-    ].join("\n");
-
     t.plan(3);
 
-    const spy = bitbarSpy();
+    const nonDefaultPathOrg = MOCK_ORGS[0];
+    const orgPath = "/path/to/somewhere";
+
     const testHome = (await tmp.dir()).path;
     process.env.HOME = testHome;
-    await fs.appendFile(path.resolve(testHome, ".bitbarrc"), bitbarrcContent);
+    await fs.appendFile(path.resolve(testHome, ".bitbarrc"), [
+      "[open_salesforce_org.paths]",
+      `${nonDefaultPathOrg.username}=${orgPath}`,
+    ].join("\n"));
 
-    mockery.enable({ warnOnUnregistered: false });
+    const spy = bitbarSpy();
+    mockery.registerMock("bitbar", spy);
     mockery.registerMock("./salesforce", {
       getOrgs: () => [nonDefaultPathOrg],
     });
     mockery.registerMock("./util", { findExecutable: () => "path/to/sfdx" });
-    mockery.registerMock("bitbar", spy);
 
     // start test
     require("../src/index");
     // stop test
-
-    mockery.disable();
 
     t.is(spy.calls.length, 1, "bitbar should be called one time");
     const [, , ...actualOrgs] = spy.calls[0].items;
