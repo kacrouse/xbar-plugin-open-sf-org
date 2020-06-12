@@ -1,4 +1,4 @@
-# bitbar-plugin-open-sf-org
+# Open Salesforce Org Bitbar Plugin
 
 A [Bitbar](https://getbitbar.com/) plugin to open any Salesforce Org you've authorized with the Salesforce CLI. Just click the org you want to open!
 
