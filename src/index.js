@@ -8,6 +8,7 @@ import { loadConfig } from "./config";
 const sfdx = findExecutable("sfdx");
 if (!sfdx) {
   console.error("Unable to find sfdx executable.");
+  process.exit(1);
 }
 
 let orgs = [];
@@ -15,6 +16,7 @@ try {
   orgs = getOrgs();
 } catch (e) {
   console.error(e.message);
+  process.exit(1);
 }
 
 const { DEFAULT_PATH, paths } = loadConfig(process.env.HOME, {
