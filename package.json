@@ -19,8 +19,8 @@
     "build:icon": "sh scripts/create-icon.sh",
     "build:all": "npm run build:icon && npm run build",
     "test": "npx ava",
-    "install": "sh scripts/install-plugin.sh && npm run restart-bitbar",
-    "build-and-install": "npm run build && npm run install",
+    "install-plugin": "sh scripts/install-plugin.sh && npm run restart-bitbar",
+    "build-and-install": "npm run build && npm run install-plugin",
     "restart-bitbar": "sh scripts/restart-bitbar.sh"
   },
   "keywords": [],
