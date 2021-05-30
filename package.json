@@ -20,9 +20,9 @@
     "build:icon": "sh scripts/create-icon.sh",
     "build:all": "npm run build:icon && npm run build",
     "test": "npx ava",
-    "install-plugin": "sh scripts/install-plugin.sh && npm run restart-bitbar",
+    "install-plugin": "sh scripts/install-plugin.sh && npm run refresh-bitbar",
     "build-and-install": "npm run build && npm run install-plugin",
-    "restart-bitbar": "sh scripts/restart-bitbar.sh"
+    "refresh-bitbar": "sh scripts/refresh-plugin.sh"
   },
   "keywords": [],
   "author": "Kyle Crouse",
