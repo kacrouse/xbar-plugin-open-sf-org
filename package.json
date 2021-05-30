@@ -1,5 +1,6 @@
 {
   "name": "bitbar-plugin-open-sf-org",
+  "pluginFilename": "open-salesforce-org",
   "version": "1.0.0",
   "main": "index.js",
   "description": "A Bitbar plugin to open any Salesforce Org registered with the Salesforce CLI.",

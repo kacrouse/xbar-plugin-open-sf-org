@@ -1,5 +1,5 @@
 #!/bin/bash
-PLUGIN_NAME=salesforce-login.1h.js
+PLUGIN_FILENAME=$(jq -r '.pluginFilename' package.json).1h.js
 source .env
-cp "dist/$PLUGIN_NAME" "$PLUGINS_DIR"
-chmod +x "$PLUGINS_DIR/$PLUGIN_NAME"
+cp "dist/$PLUGIN_FILENAME" "$PLUGINS_DIR"
+chmod +x "$PLUGINS_DIR/$PLUGIN_FILENAME"

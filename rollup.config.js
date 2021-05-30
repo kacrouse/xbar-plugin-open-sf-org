@@ -13,7 +13,7 @@ const render = (template, data) =>
 export default {
   input: "src/index.js",
   output: {
-    file: "dist/open-salesforce-org.1h.js",
+    file: `dist/${packageJson.pluginFilename}.1h.js`,
     format: "cjs",
   },
   plugins: [
