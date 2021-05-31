@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kacrouse/bitbar-plugin-open-sf-org.git"
+    "url": "git+https://github.com/kacrouse/xbar-plugin-open-sf-org.git"
   },
   "bugs": {
-    "url": "https://github.com/kacrouse/bitbar-plugin-open-sf-org/issues"
+    "url": "https://github.com/kacrouse/xbar-plugin-open-sf-org/issues"
   },
-  "homepage": "https://github.com/kacrouse/bitbar-plugin-open-sf-org#readme",
+  "homepage": "https://github.com/kacrouse/xbar-plugin-open-sf-org#readme",
   "scripts": {
     "build": "rollup -c",
     "build:icon": "sh scripts/create-icon.sh",
@@ -58,7 +58,7 @@
   "xbar": {
     "title": "Open Salesforce Org",
     "desc": "Open any Salesforce Org registered with the Salesforce CLI.",
-    "image": "https://github.com/kacrouse/bitbar-plugin-open-sf-org/blob/master/assets/screenshot.png?raw=true",
+    "image": "https://github.com/kacrouse/xbar-plugin-open-sf-org/blob/master/assets/screenshot.png?raw=true",
     "dependencies": "node,sfdx",
     "authorGithub": "kacrouse"
   }

@@ -7,7 +7,7 @@ A [xbar](https://xbarapp.com/) plugin to open any Salesforce Org you've authoriz
 ## Installation
 
 1. If you haven't already, [install xbar](https://github.com/matryer/xbar#get-started).
-2. Download [the latest version of the plugin from the releases tab](https://github.com/kacrouse/bitbar-plugin-open-sf-org/releases/latest) (it's just a single JavaScript file) and place it in your xbar plugins folder.
+2. Download [the latest version of the plugin from the releases tab](https://github.com/kacrouse/xbar-plugin-open-sf-org/releases/latest) (it's just a single JavaScript file) and place it in your xbar plugins folder.
 3. Make the plugin executable by running `chmod +x {filename}`.
 
 _If the [Salesforce CLI](https://developer.salesforce.com/tools/sfdxcli) (`sfdx`) is not installed, the plugin will not work._
