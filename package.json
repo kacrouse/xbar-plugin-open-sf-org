@@ -1,6 +1,5 @@
 {
   "name": "xbar-plugin-open-sf-org",
-  "pluginFilename": "open-salesforce-org",
   "version": "1.0.0",
   "main": "index.js",
   "description": "An xbar plugin to open any Salesforce Org registered with the Salesforce CLI.",
@@ -60,6 +59,7 @@
     "desc": "Open any Salesforce Org registered with the Salesforce CLI.",
     "image": "https://github.com/kacrouse/xbar-plugin-open-sf-org/blob/master/assets/screenshot.png?raw=true",
     "dependencies": "node,sfdx",
-    "authorGithub": "kacrouse"
+    "authorGithub": "kacrouse",
+    "pluginFilename": "open-salesforce-org.1h.js"
   }
 }
