@@ -30,19 +30,19 @@ export default {
     },
     babel({ babelHelpers: "bundled" }),
     {
-      name: "bitbar-metadata-banner",
+      name: "xbar-metadata-banner",
       banner: render(
-        fs.readFileSync(path.resolve(__dirname, "src/bitbar-metadata.js"), {
+        fs.readFileSync(path.resolve(__dirname, "src/xbar-metadata.js"), {
           encoding: "utf8",
         }),
         {
-          title: packageJson.bitbar.title,
+          title: packageJson.xbar.title,
           version: packageJson.version,
           author: packageJson.author,
-          authorGithub: packageJson.bitbar.authorGithub,
-          desc: packageJson.bitbar.desc,
-          image: packageJson.bitbar.image,
-          dependencies: packageJson.bitbar.dependencies,
+          authorGithub: packageJson.xbar.authorGithub,
+          desc: packageJson.xbar.desc,
+          image: packageJson.xbar.image,
+          dependencies: packageJson.xbar.dependencies,
           abouturl: packageJson.homepage,
         }
       ),

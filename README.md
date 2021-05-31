@@ -1,18 +1,18 @@
-# Open Salesforce Org Bitbar Plugin
+# Open Salesforce Org xbar Plugin
 
-A [Bitbar](https://getbitbar.com/) plugin to open any Salesforce Org you've authorized with the Salesforce CLI. Just click the org you want to open!
+A [xbar](https://xbarapp.com/) plugin to open any Salesforce Org you've authorized with the Salesforce CLI. Just click the org you want to open!
 
 ![screenshot](/assets/screenshot.png)
 
 ## Installation
 
-1. If you haven't already, [install Bitbar](https://github.com/matryer/bitbar#get-started).
-2. Download [the latest version of the plugin from the releases tab](https://github.com/kacrouse/bitbar-plugin-open-sf-org/releases/latest) (it's just a single JavaScript file) and place it in your Bitbar plugins folder.
+1. If you haven't already, [install xbar](https://github.com/matryer/xbar#get-started).
+2. Download [the latest version of the plugin from the releases tab](https://github.com/kacrouse/bitbar-plugin-open-sf-org/releases/latest) (it's just a single JavaScript file) and place it in your xbar plugins folder.
 3. Make the plugin executable by running `chmod +x {filename}`.
 
 _If the [Salesforce CLI](https://developer.salesforce.com/tools/sfdxcli) (`sfdx`) is not installed, the plugin will not work._
 
-_For more info on installing plugins, see the [Bitbar plugin documentation](https://github.com/matryer/bitbar#installing-plugins)._
+_For more info on installing plugins, see the [xbar plugin documentation](https://github.com/matryer/xbar#installing-plugins)._
 
 ## Configuration
 

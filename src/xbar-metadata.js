@@ -3,14 +3,14 @@
  * it readable, it will likely be easier to understand by viewing the source
  * at {{abouturl}}.
  * 
- * <bitbar.title>{{title}}</bitbar.title>
- * <bitbar.version>{{version}}</bitbar.version>
- * <bitbar.author>{{author}}</bitbar.author>
- * <bitbar.author.github>{{authorGithub}}</bitbar.author.github>
- * <bitbar.desc>{{desc}}</bitbar.desc>
- * <bitbar.image>{{image}}</bitbar.image>
- * <bitbar.dependencies>{{dependencies}}</bitbar.dependencies>
- * <bitbar.abouturl>{{abouturl}}</bitbar.abouturl>
+ * <xbar.title>{{title}}</xbar.title>
+ * <xbar.version>{{version}}</xbar.version>
+ * <xbar.author>{{author}}</xbar.author>
+ * <xbar.author.github>{{authorGithub}}</xbar.author.github>
+ * <xbar.desc>{{desc}}</xbar.desc>
+ * <xbar.image>{{image}}</xbar.image>
+ * <xbar.dependencies>{{dependencies}}</xbar.dependencies>
+ * <xbar.abouturl>{{abouturl}}</xbar.abouturl>
  * 
  * The page an org opens to can be configured through a `.bitbarrc` file in your home directory.
  * To set the page for all orgs, add the following to the file:

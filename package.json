@@ -1,9 +1,9 @@
 {
-  "name": "bitbar-plugin-open-sf-org",
+  "name": "xbar-plugin-open-sf-org",
   "pluginFilename": "open-salesforce-org",
   "version": "1.0.0",
   "main": "index.js",
-  "description": "A Bitbar plugin to open any Salesforce Org registered with the Salesforce CLI.",
+  "description": "An xbar plugin to open any Salesforce Org registered with the Salesforce CLI.",
   "directories": {
     "test": "tests"
   },
@@ -20,9 +20,9 @@
     "build:icon": "sh scripts/create-icon.sh",
     "build:all": "npm run build:icon && npm run build",
     "test": "npx ava",
-    "install-plugin": "sh scripts/install-plugin.sh && npm run refresh-bitbar",
+    "install-plugin": "sh scripts/install-plugin.sh && npm run refresh-xbar",
     "build-and-install": "npm run build && npm run install-plugin",
-    "refresh-bitbar": "sh scripts/refresh-plugin.sh"
+    "refresh-xbar": "sh scripts/refresh-plugin.sh"
   },
   "keywords": [],
   "author": "Kyle Crouse",
@@ -55,7 +55,7 @@
       "@babel/register"
     ]
   },
-  "bitbar": {
+  "xbar": {
     "title": "Open Salesforce Org",
     "desc": "Open any Salesforce Org registered with the Salesforce CLI.",
     "image": "https://github.com/kacrouse/bitbar-plugin-open-sf-org/blob/master/assets/screenshot.png",
