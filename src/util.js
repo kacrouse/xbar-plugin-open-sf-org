@@ -1,5 +1,6 @@
 import path from "path";
 import { spawnSync } from "child_process";
+import which from "which";
 
 const simpleCache =
   (getValue, cache = {}) =>
@@ -13,19 +14,13 @@ const simpleCache =
   };
 
 const findExecutable = simpleCache((name) =>
-  spawnSync(`which ${name}`, [], {
-    shell: true,
-    env: {
-      ...process.env,
-      PATH: [path.resolve("/usr/local/bin"), process.env.PATH].join(":"),
-    },
+  which.sync(name, {
+    nothrow: true,
+    path: [path.resolve("/usr/local/bin"), process.env.PATH].join(":"),
   })
-    .stdout?.toString()
-    .trim()
 );
 
-const runCommand = (command) =>
-  spawnSync(command, [], { shell: true }).stdout?.toString();
+const runCommand = (command) => spawnSync(command, [], { shell: true });
 
 const sortBy = (items, identity) => {
   return items.sort((value, other) => {
