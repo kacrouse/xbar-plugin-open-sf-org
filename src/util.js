@@ -2,6 +2,10 @@ import path from "path";
 import { spawnSync } from "child_process";
 import which from "which";
 
+const modifiedPath = [path.resolve("/usr/local/bin"), process.env.PATH].join(
+  ":"
+);
+
 const simpleCache =
   (getValue, cache = {}) =>
   (key) => {
@@ -16,11 +20,18 @@ const simpleCache =
 const findExecutable = simpleCache((name) =>
   which.sync(name, {
     nothrow: true,
-    path: [path.resolve("/usr/local/bin"), process.env.PATH].join(":"),
+    path: modifiedPath,
   })
 );
 
-const runCommand = (command) => spawnSync(command, [], { shell: true });
+const runCommand = (command) =>
+  spawnSync(command, [], {
+    shell: true,
+    env: {
+      ...process.env,
+      PATH: modifiedPath,
+    },
+  });
 
 const sortBy = (items, identity) => {
   return items.sort((value, other) => {
